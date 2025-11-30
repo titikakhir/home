@@ -106,18 +106,22 @@ gap: 10px;
 
 /* --- 6. HIDDEN DETAILS (Slide Up) --- */
 .details-panel {
-position: fixed; /* Mengambang di atas */
-bottom: -100%; /* Tersembunyi di bawah layar */
-left: 0; width: 100%;
-background: #fff;
-color: #333;
-padding: 50px 30px;
-border-radius: 20px 20px 0 0;
-transition: bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-z-index: 100;
-box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
-max-height: 85vh;
-overflow-y: auto;
+  position: fixed;              /* sudah ada */
+  bottom: -100%;                /* sudah ada */
+  left: 0;
+  width: 100%;
+  /* UBAH BAGIAN INI: */
+  background: rgba(97,97, 97, 0.3);         /* panel abu transparan */
+  backdrop-filter: blur(10px);             /* efek kaca */
+  -webkit-backdrop-filter: blur(10px);     /* untuk Safari */
+  color: #fff;                             /* default teks putih */
+  padding: 50px 30px;
+  border-radius: 20px 20px 0 0;
+  transition: bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 100;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.4);
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 
@@ -138,10 +142,35 @@ color: #333;
 }
 
 
-/* Style untuk isi detail */
+/* Style untuk isi detail 
 .detail-content h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color:#000; margin-bottom: 20px; }
-.detail-content p { font-size: 1.1rem; line-height: 1.8; color:#555; margin-bottom: 20px; }
-.highlight-box { background: #f9f9f9; border-left: 4px solid #C08552; padding: 20px; margin: 30px 0; }
+.detail-content p { font-size: 1.1rem; line-height: 1.8; color:#555; margin-bottom: 20px; } */
+
+.detail-content h3 {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  color: #fff;                              /* paksa judul putih */
+  margin-bottom: 20px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1	);/* bikin tetap kontras */
+}
+
+.detail-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #f5f5f5;                           /* teks sedikit abu terang */
+  margin-bottom: 20px;
+  
+}
+
+.detail-content .highlight-box p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #000;                           =
+  margin-bottom: 20px;
+
+}
+
+.highlight-box { background: #f9f9f9; border-left: 4px solid #C08552; padding: 20px; margin: 30px 0;=}
 
 
 /* --- 7. SCROLL INDICATOR --- */
@@ -276,7 +305,7 @@ MISI FOUNDERS <span>→</span>
 <div class="detail-content">
 <h3>Misi: Work & Travel</h3>
 <p>Saya tidak diam di laptop. Saya keliling mencari "Hidden Gem" di Bali. Blusukan ke Pabrik Rumahan, Pengrajin Lokal, dan Petani.</p>
-<p style="color:#000; font-weight:bold; font-size: 1.2rem; margin-top: 30px;">Peran Founders (Intelijen):</p>
+<p style="color:#fff; font-weight:bold; font-size: 1.2rem; margin-top: 30px;">Peran Founders (Intelijen):</p>
 <p>Beri saya rekomendasi: <em>"Tanaga, coba cari Arak Bali yang enak!"</em> atau <em>"Review Kopi Kintamani!"</em>. Kalian kasih referensi, saya meluncur.</p>
 </div>
 </div>
