@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>365 Hari Mencari Ketenangan</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* --- 1. RESET & BASIC --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body, html { height: 100%; scroll-behavior: smooth; font-family: 'Montserrat', sans-serif; overflow-x: hidden; background-color: #000; color: white; }
+
+
+/* --- 2. FULL SCREEN SECTION --- */
+.section {
+position: relative;
+height: 100vh; /* Layar Penuh */
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center; /* Teks di tengah vertikal */
+padding: 40px;
+overflow: hidden;
+/* Efek Parallax CSS Murni */
+background-attachment: fixed;
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+
+/* Overlay Gelap agar teks terbaca */
+.overlay {
+position: absolute;
+top: 0; left: 0; width: 100%; height: 100%;
+background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+z-index: 1;
+}
+
+
+/* --- 3. GAMBAR LATAR (SUDAH SAYA ISI!) --- */
+/* Hero: Gambar Campervan di Alam */
+.bg-1 { background-image: url('https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?q=80&w=1920&auto=format&fit=crop'); }
+/* Why: Gambar Suasana Hening/Pagi */
+.bg-2 { background-image: url('https://images.unsplash.com/photo-1502472584811-0a2f2ca84465?q=80&w=1920&auto=format&fit=crop'); }
+/* Level 1: Gambar Kehidupan Sederhana/Pasar */
+.bg-3 { background-image: url('https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=1920&auto=format&fit=crop'); }
+/* Level 2: Gambar Sawah/Petani Bali */
+.bg-4 { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=1920&auto=format&fit=crop'); }
+/* Footer: Gambar Malam Berbintang/Api Unggun */
+.bg-5 { background-image: url('https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=1920&auto=format&fit=crop'); }
+
+
+/* --- 4. TEXT CONTENT (Minimalis) --- */
+.content {
+position: relative;
+z-index: 2;
+max-width: 600px;
+margin-left: 5%; /* Agak ke kiri seperti contoh */
+opacity: 0; /* Animasi masuk */
+transform: translateY(30px);
+transition: all 1s ease;
+}
+
+
+/* Kelas untuk memicu animasi saat di-scroll */
+.visible .content { opacity: 1; transform: translateY(0); }
+
+
+h2 {
+font-family: 'Playfair Display', serif;
+font-size: 3.5rem;
+line-height: 1.1;
+margin-bottom: 20px;
+text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+
+p.quote {
+font-size: 1.2rem;
+font-weight: 300;
+line-height: 1.6;
+margin-bottom: 30px;
+border-left: 2px solid #fff;
+padding-left: 20px;
+}
+
+
+/* --- 5. BUTTON "MORE" (Jelajahi) --- */
+.btn-more {
+background: rgba(255,255,255,0.2);
+backdrop-filter: blur(5px);
+border: 1px solid rgba(255,255,255,0.5);
+color: #fff;
+padding: 12px 30px;
+border-radius: 30px;
+font-size: 0.9rem;
+cursor: pointer;
+transition: 0.3s;
+display: inline-flex;
+align-items: center;
+gap: 10px;
+}
+.btn-more:hover { background: #fff; color: #000; }
+
+
+/* --- 6. HIDDEN DETAILS (Slide Up) --- */
+.details-panel {
+position: fixed; /* Mengambang di atas */
+bottom: -100%; /* Tersembunyi di bawah layar */
+left: 0; width: 100%;
+background: #fff;
+color: #333;
+padding: 50px 30px;
+border-radius: 20px 20px 0 0;
+transition: bottom 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+z-index: 100;
+box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+max-height: 85vh;
+overflow-y: auto;
+}
+
+
+.details-panel.active { bottom: 0; }
+
+
+.close-btn {
+position: absolute;
+top: 20px; right: 20px;
+background: #f0f0f0;
+border: none;
+width: 40px; height: 40px;
+border-radius: 50%;
+cursor: pointer;
+font-weight: bold;
+font-size: 1.2rem;
+color: #333;
+}
+
+
+/* Style untuk isi detail */
+.detail-content h3 { font-family: 'Playfair Display', serif; font-size: 2rem; color:#000; margin-bottom: 20px; }
+.detail-content p { font-size: 1.1rem; line-height: 1.8; color:#555; margin-bottom: 20px; }
+.highlight-box { background: #f9f9f9; border-left: 4px solid #C08552; padding: 20px; margin: 30px 0; }
+
+
+/* --- 7. SCROLL INDICATOR --- */
+.scroll-indicator {
+position: absolute;
+bottom: 30px; left: 50%; transform: translateX(-50%);
+z-index: 2;
+animation: bounce 2s infinite;
+opacity: 0.7;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 2px;
+}
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);} 40% {transform: translateY(-10px) translateX(-50%);} 60% {transform: translateY(-5px) translateX(-50%);} }
+
+
+/* Responsive Text */
+@media (max-width: 768px) { h2 { font-size: 2.5rem; } .content { margin-left: 0; text-align: center; } p.quote { border: none; padding: 0; } }
+
+
+</style>
+</head>
+<body>
+
+
+<div class="section bg-1" id="hero">
+<div class="overlay"></div>
+<div class="content">
+<p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;">Eksperimen Hidup</p>
+<h2>365 Hari <br> Mencari Ketenangan</h2>
+<p class="quote">
+"Dari Nol Menuju Aset Abadi. <br> Dokumentasi Brutal Tanpa Filter."
+</p>
+<button class="btn-more" onclick="openDetails('detail-hero')">
+BACA MISI SAYA <span>→</span>
+</button>
+</div>
+<div class="scroll-indicator">Scroll Down</div>
+</div>
+
+
+<div id="detail-hero" class="details-panel">
+<button class="close-btn" onclick="closeDetails('detail-hero')">✕</button>
+<div class="detail-content">
+<h3>The Living Legacy</h3>
+<p>Selamat datang di eksperimen ini.</p>
+<p>Selama 365 hari ke depan, saya akan mendokumentasikan perjalanan membangun kehidupan dari titik nol. Tanpa pamer saldo, tanpa kepalsuan.</p>
+<div class="highlight-box">
+<p><strong>Komitmen:</strong> Tidak akan keluar dari kos sebelum Campervan jadi dari hasil keringat sendiri.</p>
+</div>
+<a href="#discord" style="background:#000; color:#fff; padding:15px 30px; text-decoration:none; border-radius:5px; display:inline-block; margin-top:20px; font-weight: bold;">Gabung Discord</a>
+</div>
+</div>
+
+
+
+
+<div class="section bg-2">
+<div class="overlay"></div>
+<div class="content">
+<p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Titik Balik</p>
+<h2>Princess Lilin</h2>
+<p class="quote">
+"Dia membangun 6 sumur tanpa iklan. <br> Itu menampar kesombongan saya."
+</p>
+<button class="btn-more" onclick="openDetails('detail-why')">
+BACA CERITA LENGKAP <span>→</span>
+</button>
+</div>
+</div>
+
+
+<div id="detail-why" class="details-panel">
+<button class="close-btn" onclick="closeDetails('detail-why')">✕</button>
+<div class="detail-content">
+<h3>Alasannya Satu Nama</h3>
+<p>Saya terbangun jam 3 pagi dengan jantung berdetak kencang selama 2 minggu penuh. Alasannya satu nama: Princess Lilin.</p>
+<p>Dia bercerita membangun 6 sumur di Sumba dari profit bisnis tanpa iklan. Selama ini saya sombong membangun bisnis miliaran di atas pondasi iklan (Ads) yang rapuh.</p>
+<p>Akhirnya saya membulatkan tekad: <strong>Saya Harus Mereset Ego.</strong></p>
+</div>
+</div>
+
+
+
+
+<div class="section bg-3">
+<div class="overlay"></div>
+<div class="content">
+<p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Level 01 • Completed</p>
+<h2>Survival Mode</h2>
+<p class="quote">
+"Belajar dari mereka yang menolak berhenti <br> meski tulang terasa ngilu."
+</p>
+<button class="btn-more" onclick="openDetails('detail-lvl1')">
+LIHAT REALITA <span>→</span>
+</button>
+</div>
+</div>
+
+
+<div id="detail-lvl1" class="details-panel">
+<button class="close-btn" onclick="closeDetails('detail-lvl1')">✕</button>
+<div class="detail-content">
+<h3>The Reality Check</h3>
+<p>Selama 1 bulan, saya melakukan eksperimen gaya hidup. Memposisikan diri persis seperti 90% rakyat Indonesia. Tinggal di kos sempit, makan sederhana.</p>
+<div class="highlight-box">
+<p><strong>Pelajaran Pahit:</strong> Saya belajar bahwa mereka bekerja keras bukan untuk diri sendiri, tapi untuk keluarga. Sepatu jebol? Dilem dulu demi uang sekolah anak.</p>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="section bg-4">
+<div class="overlay"></div>
+<div class="content">
+<p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Level 02 • On Going</p>
+<h2>The Exploration</h2>
+<p class="quote">
+"Blusukan mencari harta karun tersembunyi <br> di pelosok Bali."
+</p>
+<button class="btn-more" onclick="openDetails('detail-lvl2')">
+MISI FOUNDERS <span>→</span>
+</button>
+</div>
+</div>
+
+
+<div id="detail-lvl2" class="details-panel">
+<button class="close-btn" onclick="closeDetails('detail-lvl2')">✕</button>
+<div class="detail-content">
+<h3>Misi: Work & Travel</h3>
+<p>Saya tidak diam di laptop. Saya keliling mencari "Hidden Gem" di Bali. Blusukan ke Pabrik Rumahan, Pengrajin Lokal, dan Petani.</p>
+<p style="color:#000; font-weight:bold; font-size: 1.2rem; margin-top: 30px;">Peran Founders (Intelijen):</p>
+<p>Beri saya rekomendasi: <em>"Tanaga, coba cari Arak Bali yang enak!"</em> atau <em>"Review Kopi Kintamani!"</em>. Kalian kasih referensi, saya meluncur.</p>
+</div>
+</div>
+
+
+
+
+<div class="section bg-5" id="discord">
+<div class="overlay"></div>
+<div class="content" style="text-align:center; margin-left:0; max-width:100%;">
+<h2>Amankan Kursi <br> Barisan Depan</h2>
+<p class="quote" style="border:none; padding:0;">
+Bergabunglah dengan Discord Eksklusif. <br> Mari kita mulai perjalanan ini bersama.
+</p>
+<a href="#" style="background:#fff; color:#000; padding:15px 40px; text-decoration:none; border-radius:50px; font-weight:bold; letter-spacing:1px; display:inline-block; margin-top:20px;">GABUNG SEKARANG</a>
+<p style="font-size:0.8rem; margin-top:30px; opacity:0.7;">The Origin 1000 Founders Only.</p>
+</div>
+</div>
+
+
+<script>
+// Animasi Teks Muncul Saat Scroll
+const observer = new IntersectionObserver((entries) => {
+entries.forEach((entry) => {
+if (entry.isIntersecting) {
+entry.target.classList.add('visible');
+}
+});
+}, { threshold: 0.3 });
+
+
+document.querySelectorAll('.section').forEach((el) => observer.observe(el));
+
+
+// Fungsi Buka/Tutup Detail
+function openDetails(id) {
+document.getElementById(id).classList.add('active');
+document.body.style.overflow = 'hidden'; // Mencegah scroll background
+}
+function closeDetails(id) {
+document.getElementById(id).classList.remove('active');
+document.body.style.overflow = 'auto'; // Mengaktifkan scroll background kembali
+}
+</script>
+
+
+</body>
+</html>
+
